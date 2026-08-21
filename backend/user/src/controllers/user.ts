@@ -11,6 +11,18 @@ export const loginUser =  TryCatch(async(req, res)=>{
     const rateLimit= await redisClient.get(rateLimitKey);
 
 
+
+    if(rateLimit){ 
+    res.status(429).json({ 
+        
+        messgae:"Too many requests. Please wait before requesting for a new otp",
+    
+    });
+    
+    return;
+
+}
+
     const otp= Math.floor(100000 + Math.random()* 900000).toString()
 
 
