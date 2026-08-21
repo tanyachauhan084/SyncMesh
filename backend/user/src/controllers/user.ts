@@ -19,4 +19,10 @@ export const loginUser =  TryCatch(async(req, res)=>{
 
         EX: 300,
     })
+
+    await redisClient.set(rateLimitKey, "true", {
+
+        EX:60,
+
+    })
 })
