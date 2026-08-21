@@ -37,4 +37,8 @@ export const loginUser =  TryCatch(async(req, res)=>{
 
     await publishToQueue("send-otp", message)
 
+    res.status(200).json({
+
+        message:"OTP send to your mail",
+    })
 })
