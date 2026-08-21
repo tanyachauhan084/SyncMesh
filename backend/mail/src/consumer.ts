@@ -45,6 +45,34 @@ export const startSendOptConsumer= async()=>{
                 const {to, subject, body}= JSON.parse(msg.content.toString());
 
 
+                    const transporter= nodemailer.createTransport({
+
+                        host:"smtp.gmail.com",
+                        port:465,
+
+                        auth:{
+
+                            user: process.env.USER,
+                            pass: process.env.PASSWORD
+                        }
+
+                    })
+
+                        await transporter.sendMail({
+
+
+
+                            from:"SyncMesh",
+                            to,
+                            subject,
+                            text: body
+
+                    })      
+                
+                
+                    console.log(`OTP mail sent to ${to}`);
+                    
+                    channel.ack(msg);
                 
                 } catch (error) {
                     
