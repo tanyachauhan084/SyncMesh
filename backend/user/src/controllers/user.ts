@@ -9,5 +9,14 @@ export const loginUser =  TryCatch(async(req, res)=>{
 
     const rateLimit= await redisClient.get(rateLimitKey);
 
-    
+
+    const otp= Math.floor(100000 + Math.random()* 900000).toString()
+
+
+    const otpKey= `otp:${email}`
+
+    await redisClient.set(otpKey, otp, {
+
+        EX: 300,
+    })
 })
