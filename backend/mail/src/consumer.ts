@@ -37,7 +37,21 @@ export const startSendOptConsumer= async()=>{
         console.log("Mail service consumer started, listening for otp emails");
 
 
-     
+        channel.consume(queueName, async(msg)=>{
+
+            if(msg){
+
+                try {
+                const {to, subject, body}= JSON.parse(msg.content.toString());
+
+
+                
+                } catch (error) {
+                    
+                    console.log("Failed to send OTP", error);
+                }
+            }
+        })
     } catch (error) {
         console.log("Failed to start rabbitmq consumer", error);
     }
