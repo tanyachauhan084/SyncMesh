@@ -1,4 +1,5 @@
 import TryCatch from "../config/TryCatch.js"
+import { redisClient } from "../index.js"
 
 export const loginUser =  TryCatch(async(req, res)=>{
 
@@ -6,5 +7,7 @@ export const loginUser =  TryCatch(async(req, res)=>{
 
     const rateLimitKey= `otp:ratelimit${email}`
 
- 
+    const rateLimit= await redisClient.get(rateLimitKey);
+
+    
 })
