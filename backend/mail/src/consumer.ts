@@ -27,7 +27,7 @@ export const startSendOptConsumer= async()=>{
 
 
 
-        const queueName= "second-otp"
+        const queueName= "send-otp"
 
 
 
