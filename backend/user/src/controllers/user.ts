@@ -87,4 +87,7 @@ export const verifyuser= TryCatch(async(req, res)=>{
     }
 
 
+    await redisClient.del(otpKey)
+    
+
 })
