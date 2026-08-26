@@ -72,7 +72,7 @@ export const verifyuser= TryCatch(async(req, res)=>{
         return;
     }
 
-    const otpKey= `otp:{email}`
+    const otpKey= `otp:${email}`
 
     const storedotp= await redisClient.get(otpKey)
 
