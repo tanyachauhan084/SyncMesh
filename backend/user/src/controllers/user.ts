@@ -1,6 +1,7 @@
 import { publishToQueue } from "../config/rabbitmq.js"
 import TryCatch from "../config/TryCatch.js"
 import { redisClient } from "../index.js"
+import { User } from "../model/User.js"
 
 export const loginUser =  TryCatch(async(req, res)=>{
 
@@ -90,4 +91,13 @@ export const verifyuser= TryCatch(async(req, res)=>{
     await redisClient.del(otpKey)
     
 
+
+     let user= await User.findOne({email})
+
+    if(!user){
+        const name= email.slice(0,8)
+
+        user= await User.create({name, email});
+
+    }
 })
