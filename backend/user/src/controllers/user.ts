@@ -63,7 +63,7 @@ export const verifyuser= TryCatch(async(req, res)=>{
     const {email, otp:enteredotp}= req.body
 
 
-    if(!email || enteredotp){
+    if(!email ||  !enteredotp){
 
         res.status(400).json({
 
