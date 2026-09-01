@@ -9,4 +9,8 @@ router.post("/login", loginUser);
 
 
 router.post("/verify", verifyuser);
+
+router.get("/me", isAuth, myProfile);
+
+
 export default router;
