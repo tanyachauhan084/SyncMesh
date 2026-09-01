@@ -163,6 +163,14 @@ export const getAllUser= TryCatch(async(req:AuthenticatedRequest, res)=>{
 });
 
 
+export const getAUser= TryCatch(async(req,res)=>{
+
+    const user= await User.findById(req.params.id);
+
+    res.json(user);
+
+    
+})
 
 
 
