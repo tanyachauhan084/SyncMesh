@@ -130,7 +130,7 @@ export const updtaeName= TryCatch(async(req:AuthenticatedRequest, res)=>{
 
     if(!user){
 
-        
+
         res.status(404).json({
             message: "Please login"
 
@@ -154,6 +154,13 @@ export const updtaeName= TryCatch(async(req:AuthenticatedRequest, res)=>{
     });
 });
 
+export const getAllUser= TryCatch(async(req:AuthenticatedRequest, res)=>{
+
+    const users= await User.find();
+    
+    res.json(users);
+
+});
 
 
 
