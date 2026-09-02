@@ -16,6 +16,6 @@ router.get("/user/all", isAuth, getAllUser);
 
 router.get("/user/:id", getAUser);
 
-router.get("/updated/user", isAuth, updateName);
+router.post("/updated/user", isAuth, updateName);
 
 export default router;
