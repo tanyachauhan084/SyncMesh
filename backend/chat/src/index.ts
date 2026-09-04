@@ -8,6 +8,8 @@ dotenv.config();
 
 connectDb();
 
+app.use(express.json());
+
 const port= process.env.PORT;
 
 app.listen(port, ()=>{
