@@ -1,5 +1,6 @@
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import cloudinary from "../config/cloudinary.js";
+import multer from "multer";
 
 const storage= new CloudinaryStorage({
 
@@ -15,5 +16,29 @@ const storage= new CloudinaryStorage({
     } as any,
 });
 
+
+
+
+export const upload= multer({
+
+    storage,
+    limits:
+
+    {
+        fileSize: 5*1024* 1024,
+    },
+
+    fileFilter:(req, file, cb)=>{
+
+        if(file.mimetype.startsWith("/image/")){
+
+            cb(null, true);
+        }
+        else{
+
+            cb(new Error("only image allowed"));
+        }
+    }
+})
 
 
