@@ -188,4 +188,51 @@ export const sendMessage= TryCatch(async(req:AuthenticatedRequest, res)=>{
         return;
     }
     //socket setup
+
+    let messageData: any=  {
+
+        chatId: chatId,
+        sender: senderId,
+        seen: false,
+        seenAt: undefined,
+    };
+
+    if(imageFile){
+        messageData.image={
+            url: imageFile.path,
+            publicId: imageFile.filename,
+        };
+        messageData.messageType= "image",
+        messageData.text= text || "";
+    }
+    else{
+
+        messageData.text= text;
+        messageData.messageType= "tex";
+    }
+    const message= new Messages(messageData);
+    const savedMessage=await message.save();
+    const latestMessageText= imageFile?"Image": text
+
+    await Chat.findByIdAndUpdate(chatId,{
+
+        latestMessage:{
+
+            text: latestMessageText,
+
+            sender: senderId,
+        },
+        updatedAt: new Date(),
+    },
+
+{new: true}
+);
+
+res.status(201).json({
+
+    message: savedMessage,
+    sender: senderId,
+})
+
+
 });
