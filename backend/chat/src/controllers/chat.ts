@@ -208,7 +208,7 @@ export const sendMessage= TryCatch(async(req:AuthenticatedRequest, res)=>{
     else{
 
         messageData.text= text;
-        messageData.messageType= "tex";
+        messageData.messageType= "text";
     }
     const message= new Messages(messageData);
     const savedMessage=await message.save();
