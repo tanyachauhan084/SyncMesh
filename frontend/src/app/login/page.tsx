@@ -1,10 +1,36 @@
 "use client"
 import { ArrowRight, Mail } from "lucide-react";
-
+import { useRouter } from "next/router";
+import axios from "axios";
+import { useState } from "react";
 
 const LoginPage = () => {
 
+    const [email,setEmail]= useState<string>("");
+    const [loading, setLoading]= useState<boolean>(false);
+    const router= useRouter();
 
+    const handleSubmit= async(e: React.FormEvent<HTMLElement>):
+ Promise<void>=>{
+
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const { data } = await axios.post(`http://localhost:5000/api/v1/login`, {
+        email,
+      });
+
+      alert(data.message)
+      router.push(`/verify?email=${email}`)
+    } catch (error: any) {
+        alert(error.response.data.message)
+    }
+    finally{
+
+        setLoading(false);
+    }
+ }
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
       <div className="max-w-md w-full">
@@ -34,12 +60,15 @@ const LoginPage = () => {
                 id="email"
                 className="w-full px-4 py-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400"
                 placeholder="Enter Your email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
             <button
-              type="submit"
+               type="submit"
               className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={loading}
             >
              
                 <div className="flex items-center justify-center gap-2">
