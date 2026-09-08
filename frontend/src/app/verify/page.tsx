@@ -27,6 +27,19 @@ const VerifyPage = () => {
     }
   }, [timer]);
 
+
+  const handleInputChange = (index: number, value: string): void => {
+    if (value.length > 1) return;
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+    setError("");
+
+    if (value && index < 5) {
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
+
   
     const handleSubmit= async()=>{}
   return (
