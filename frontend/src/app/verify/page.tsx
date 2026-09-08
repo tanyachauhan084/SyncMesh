@@ -11,7 +11,7 @@ const VerifyPage = () => {
     const [error, setError]= useState<string>("");
     const [resendLoading, setresendLoading]= useState(false);
     const [timer, setTimer]= useState(60);
-    const inputRefs= useRef<Array<HTMLInputElement>|null>([]);
+    const inputRefs= useRef<Array<HTMLInputElement>>([]);
     const router= useRouter();
     const searchParams= useSearchParams();
 
