@@ -1,7 +1,7 @@
 "use client"
 import { ArrowRight, Loader2, Lock } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 
 const VerifyPage = () => {
@@ -17,6 +17,17 @@ const VerifyPage = () => {
 
     const email: string= searchParams.get("email")|| "";
 
+
+  useEffect(() => {
+    if (timer > 0) {
+      const interval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [timer]);
+
+  
     const handleSubmit= async()=>{}
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
