@@ -1,7 +1,7 @@
 "use client"
 import { ArrowRight, Loader2, Lock } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 
 const VerifyPage = () => {
@@ -60,7 +60,15 @@ const VerifyPage = () => {
     }
   };
   
-    const handleSubmit= async()=>{}
+    const handleSubmit= async(e: React.FormEvent<HTMLFormElement>)=>{
+
+       e.preventDefault();
+    const otpString = otp.join("");
+    if (otpString.length !== 6) {
+      setError("Please Enter all 6 digits");
+      return;
+    }
+  }
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
       <div className="max-w-md w-full">
@@ -129,7 +137,25 @@ const VerifyPage = () => {
             </button>
           </form>
 
-          
+
+  <div className="mt-6 text-center">
+            <p className="text-gray-400 text-sm mb-4">
+              Din't receive the code?
+            </p>
+            {timer > 0 ? (
+              <p className="text-gray-400 text-sm">
+                Resend code in {timer} seconds
+              </p>
+            ) : (
+              <button
+                className="text-blue-400 hover:text-blue-300 font-medium text-sm disabled:opacity-50"
+                disabled={resendLoading}
+                
+              >
+                {resendLoading ? "Sending..." : "Resend Code"}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
