@@ -81,13 +81,7 @@ const LoginPage = () => {
                   <span>Send Verification Code</span>
                   <ArrowRight className="w-5 h-5" />
                 </div>
-        )}
-             
-                <div className="flex items-center justify-center gap-2">
-                  <span>Send Verification Code</span>
-                  <ArrowRight className="w-5 h-5" />
-                </div>
-              
+              )}
             </button>
           </form>
         </div>
