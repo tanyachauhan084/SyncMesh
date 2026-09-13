@@ -200,6 +200,7 @@ const VerifyPage = () => {
               <button
                 className="text-blue-400 hover:text-blue-300 font-medium text-sm disabled:opacity-50"
                 disabled={resendLoading}
+                onClick={handleResendOtp}
                 
               >
                 {resendLoading ? "Sending..." : "Resend Code"}
