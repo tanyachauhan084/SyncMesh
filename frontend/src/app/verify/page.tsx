@@ -11,7 +11,7 @@ const VerifyPage = () => {
     const [error, setError]= useState<string>("");
     const [resendLoading, setresendLoading]= useState(false);
     const [timer, setTimer]= useState(60);
-    const inputRefs= useRef<Array<HTMLInputElement>>([]);
+    const inputRefs= useRef<Array<HTMLInputElement | null>>([]);
     const router= useRouter();
     const searchParams= useSearchParams();
 
@@ -40,6 +40,25 @@ const VerifyPage = () => {
     }
   };
 
+  const handleKeyDown = (
+    index: number,
+    e: React.KeyboardEvent<HTMLElement>
+  ): void => {
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>): void => {
+    e.preventDefault();
+    const patedData = e.clipboardData.getData("text");
+    const digits = patedData.replace(/\D/g, "").slice(0, 6);
+    if (digits.length === 6) {
+      const newOtp = digits.split("");
+      setOtp(newOtp);
+      inputRefs.current[5]?.focus();
+    }
+  };
   
     const handleSubmit= async()=>{}
   return (
@@ -54,7 +73,7 @@ const VerifyPage = () => {
               Verify Your Email
             </h1>
             <p className="text-gray-300 text-lg">
-              We have sent a 6-digit code to your e
+              We have sent a 6-digit code to
             </p>
             <p className='text-blue-400 font-medium'>{email}</p>
           </div>
@@ -65,17 +84,25 @@ const VerifyPage = () => {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-300 mb-2"
               >
-                Email Address
+                Enter your 6 digit Otp
               </label>
-              <input
-                type="email"
-                id="email"
-                className="w-full px-4 py-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400"
-                placeholder="Enter Your email address"
-                // value={email}
-                // onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+                <div className="flex justify-center in-checked: space-x-3">
+                {otp.map((digit, index) => (
+                  <input
+                    key={index}
+                    ref={(el: HTMLInputElement | null) => {
+                      inputRefs.current[index] = el;
+                    }}
+                    type="text"
+                    maxLength={1}
+                    value={digit}
+                    onChange={(e) => handleInputChange(index, e.target.value)}
+                    onKeyDown={(e) => handleKeyDown(index, e)}
+                    onPaste={index === 0 ? handlePaste : undefined}
+                    className="w-12 h-12 text-center text-xl font-bold border-2 border-gray-600 rounded-lg bg-gray-700 text-white"
+                  />
+                ))}
+              </div>
             </div>
             <button
                type="submit"
@@ -86,11 +113,11 @@ const VerifyPage = () => {
                   {loading ? (
                 <div className="flex items-center justify-center gap-2">
                   <Loader2 className="w-5 h-5" />
-                  Sending Otp to your mail...
+                  Verifying...
                 </div>
               ) : (
                 <div className="flex items-center justify-center gap-2">
-                  <span>Send Verification Code</span>
+                  <span>Verify</span>
                   <ArrowRight className="w-5 h-5" />
                 </div>
         )}
