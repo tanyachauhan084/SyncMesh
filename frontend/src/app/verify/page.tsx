@@ -2,7 +2,8 @@
 import { ArrowRight, Loader2, Lock } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
-
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const VerifyPage = () => {
  
@@ -68,7 +69,38 @@ const VerifyPage = () => {
       setError("Please Enter all 6 digits");
       return;
     }
-  }
+  
+
+
+  setError("")
+  setLoading(true);
+
+  
+    try {
+      const { data } = await axios.post('http://localhost:5000/api/v1/verify', {
+        email,
+        otp: otpString,
+      });
+
+      alert(data.message);
+   
+      Cookies.set("token", data.token, {
+        expires: 15,
+        secure: false,
+        path: "/",
+      });
+      setOtp(["", "", "", "", "", ""]);
+      inputRefs.current[0]?.focus();
+
+
+    } catch (error: any) {
+      setError(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+ 
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
       <div className="max-w-md w-full">
