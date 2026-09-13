@@ -10,7 +10,7 @@ const VerifyPage = () => {
     const [loading, setLoading]= useState(false);
     const [otp, setOtp]= useState<string[]>(["","","","","",""]);
     const [error, setError]= useState<string>("");
-    const [resendLoading, setresendLoading]= useState(false);
+    const [resendLoading, setResendLoading]= useState(false);
     const [timer, setTimer]= useState(60);
     const inputRefs= useRef<Array<HTMLInputElement | null>>([]);
     const router= useRouter();
