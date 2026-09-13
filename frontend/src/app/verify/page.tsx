@@ -100,6 +100,24 @@ const VerifyPage = () => {
     }
   };
 
+
+
+  
+  const handleResendOtp = async () => {
+    setResendLoading(true);
+    setError("");
+    try {
+      const { data } = await axios.post('http://localhost:5000/api/v1/login', {
+        email,
+      });
+        
+      setTimer(60);
+    } catch (error: any) {
+      setError(error.response.data.message);
+    } finally {
+      setResendLoading(false);
+    }
+  };
  
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
