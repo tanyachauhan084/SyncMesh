@@ -104,6 +104,11 @@ const VerifyPage = () => {
                 ))}
               </div>
             </div>
+               {error && (
+              <div className="bg-red-900 border border-red-700 rounded-lg p-3">
+                <p className="text-red-300 text-sm text-center">{error}</p>
+              </div>
+            )}
             <button
                type="submit"
               className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -123,6 +128,8 @@ const VerifyPage = () => {
         )}
             </button>
           </form>
+
+          
         </div>
       </div>
     </div>
