@@ -18,7 +18,7 @@ export const loginUser =  TryCatch(async(req, res)=>{
     if(rateLimit){ 
     res.status(429).json({ 
         
-        messgae:"Too many requests. Please wait before requesting for a new otp",
+        message:"Too many requests. Please wait before requesting for a new otp",
     
     });
     
@@ -108,7 +108,7 @@ const token= generatetoken(user);
 
 res.json({
 
-    messgae:"user verififed",
+    message:"user verififed",
     user,
     token
 })
