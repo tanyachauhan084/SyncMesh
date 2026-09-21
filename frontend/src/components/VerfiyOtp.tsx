@@ -1,13 +1,16 @@
 "use client"
 import { ArrowRight, ChevronLeft, Loader2, Lock } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { redirect, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import { user_service } from '@/context/AppContext';
+import { useAppData, user_service } from '@/context/AppContext';
+import Loading from './Loading';
 
 const VerifyOtp = () => {
  
+
+  const {isAuth, setIsAuth, setUser, loading: userLoading}= useAppData();
     const [loading, setLoading]= useState(false);
     const [otp, setOtp]= useState<string[]>(["","","","","",""]);
     const [error, setError]= useState<string>("");
@@ -93,7 +96,9 @@ const VerifyOtp = () => {
       setOtp(["", "", "", "", "", ""]);
       inputRefs.current[0]?.focus();
 
-
+      setUser(data.user);
+      setIsAuth(true);
+      
     } catch (error: any) {
       setError(error.response.data.message);
     } finally {
@@ -120,6 +125,8 @@ const VerifyOtp = () => {
     }
   };
  
+if(userLoading) return <Loading/>;
+  if(isAuth) redirect("/chat");
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
       <div className="max-w-md w-full">
