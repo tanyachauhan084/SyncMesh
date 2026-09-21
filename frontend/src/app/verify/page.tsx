@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import { user_services } from '@/context/AppContext';
+import { user_service } from '@/context/AppContext';
 
 const VerifyPage = () => {
  
@@ -78,7 +78,7 @@ const VerifyPage = () => {
 
   
     try {
-      const { data } = await axios.post(`${user_services}/api/v1/verify`, {
+      const { data } = await axios.post(`${user_service}/api/v1/verify`, {
         email,
         otp: otpString,
       });
@@ -108,7 +108,7 @@ const VerifyPage = () => {
     setResendLoading(true);
     setError("");
     try {
-      const { data } = await axios.post(`${user_services}/api/v1/login`, {
+      const { data } = await axios.post(`${user_service}/api/v1/login`, {
         email,
       });
         
