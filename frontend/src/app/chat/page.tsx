@@ -103,6 +103,11 @@ const ChatApp = () => {
   handleLogout={logoutUser}
   createChat={createChat}
 />
+
+     <div className="flex-1 flex flex-col justify-between p-4 backdrop-blur-xl bg-white/5 border border-white/10">
+        <ChatHeader    
+        />
+</div>
     </div>
   );
 }
