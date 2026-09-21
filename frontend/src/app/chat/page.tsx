@@ -161,6 +161,14 @@ const ChatApp = () => {
           messages={messages}
           loggedInUser={loggedInUser}
         />
+
+
+          <MessageInput
+          selectedUser={selectedUser}
+          message={message}
+          setMessage={handleTyping}
+          handleMessageSend={handleMessageSend}
+        />
 </div>
     </div>
   );
