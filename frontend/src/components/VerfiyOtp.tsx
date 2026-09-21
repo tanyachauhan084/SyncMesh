@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import { useAppData, user_service } from '@/context/AppContext';
 import Loading from './Loading';
+import toast from 'react-hot-toast';
 
 const VerifyOtp = () => {
  
@@ -86,7 +87,7 @@ const VerifyOtp = () => {
         otp: otpString,
       });
 
-      alert(data.message);
+      toast.success(data.message);
    
       Cookies.set("token", data.token, {
         expires: 15,
@@ -117,6 +118,7 @@ const VerifyOtp = () => {
         email,
       });
         
+      toast.success(data.message);
       setTimer(60);
     } catch (error: any) {
       setError(error.response.data.message);
