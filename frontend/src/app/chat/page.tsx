@@ -1,9 +1,12 @@
 "use client"
 import ChatSidebar from "@/components/ChatSidebar";
 import Loading from "@/components/Loading";
-import { useAppData, User } from "@/context/AppContext"
+import { chat_service, useAppData, User } from "@/context/AppContext"
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
+import toast from "react-hot-toast";
+import Cookies from "js-cookie"
 
   export interface Message {
   _id: string;
@@ -58,6 +61,29 @@ const ChatApp = () => {
     }
   }, [isAuth, router, loading]);
 
+  const handleLogout= ()=> logoutUser();
+
+  async function createChat(u: User) {
+
+    try {
+      const token= Cookies.get("token");
+      const {data}= await axios.post(`${chat_service}/api/v1/chat/new`, {userId: loggedInUser?._id, otherUserId: u._id},
+        {
+          headers:{
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      setSelectedUser(data.chatId);
+      setShowAllUser(false);
+      await fetchChats();
+    } catch (error) {
+
+      toast.error("Failed to start chat")
+      
+    }
+    
+  }
 
 
   if(loading) return <Loading/>;
