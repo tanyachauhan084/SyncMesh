@@ -110,6 +110,17 @@ const ChatApp = () => {
     
   }
 
+  
+  const handleTyping= (value: string)=>{
+    setMessage(value)
+
+
+    if(!selectedUser) return;
+
+  //socket setup
+  };
+
+
 
   useEffect(()=>{
 
