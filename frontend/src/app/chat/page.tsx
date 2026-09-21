@@ -110,7 +110,61 @@ const ChatApp = () => {
     
   }
 
-  
+  const handleMessageSend = async (e: any, imageFile?: File | null) => {
+    e.preventDefault();
+
+    if (!message.trim() && !imageFile) return;
+
+    if (!selectedUser) return;
+
+    
+    const token = Cookies.get("token");
+
+    try {
+      const formData = new FormData();
+
+      formData.append("chatId", selectedUser);
+
+      if (message.trim()) {
+        formData.append("text", message);
+      }
+
+      if (imageFile) {
+        formData.append("image", imageFile);
+      }
+
+      const { data } = await axios.post(
+        `${chat_service}/api/v1/message`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setMessages((prev) => {
+        const currentMessages = prev || [];
+        const messageExists = currentMessages.some(
+          (msg) => msg._id === data.message._id
+        );
+
+        if (!messageExists) {
+          return [...currentMessages, data.message];
+        }
+        return currentMessages;
+      });
+
+      setMessage("");
+
+      const displayText = imageFile ? "📷 image" : message;
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+ 
   const handleTyping= (value: string)=>{
     setMessage(value)
 
