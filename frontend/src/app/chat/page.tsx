@@ -110,6 +110,15 @@ const ChatApp = () => {
   }
 
 
+  useEffect(()=>{
+
+    if(selectedUser){
+
+      fetchChat();
+    }
+  }, [selectedUser]);
+
+
   if(loading) return <Loading/>;
   return  (
     <div className="min-h-screen flex bg-gray-900 text-white relative overflow-hidden">
