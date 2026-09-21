@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast";
 import Cookies from "js-cookie"
+import ChatMessages from "@/components/ChatMessages";
 
   export interface Message {
   _id: string;
@@ -142,6 +143,12 @@ const ChatApp = () => {
         user={user}
         setSidebarOpen={setSiderbarOpen}
         isTyping={isTyping}   
+        />
+
+         <ChatMessages
+          selectedUser={selectedUser}
+          messages={messages}
+          loggedInUser={loggedInUser}
         />
 </div>
     </div>
