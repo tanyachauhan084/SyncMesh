@@ -101,6 +101,7 @@ const ChatApp = () => {
   selectedUser={selectedUser}
   setSelectedUser={setSelectedUser}
   handleLogout={logoutUser}
+  createChat={createChat}
 />
     </div>
   );
