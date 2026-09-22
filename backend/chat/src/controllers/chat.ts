@@ -360,6 +360,22 @@ try {
 
       //socket work
 
+
+      if(messagesToMarkSeen.length>0){
+
+        const otherUserSocketId= getRecieverSocketId(otherUserId.toString())
+
+        if(otherUserSocketId){
+
+            io.to(otherUserSocketId).emit("messagesSeen", {
+
+                chatId: chatId,
+                seenBy: userId,
+                messageIds: messagesToMarkSeen.map((msg)=>msg._id)
+            })
+        }
+      }
+
       res.json({
 
         messages,
