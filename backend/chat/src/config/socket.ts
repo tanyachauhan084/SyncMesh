@@ -36,12 +36,59 @@ io.on("connection", (socket: Socket)=>{
     io.emit("getOnlineUser", Object.keys(userSocketMap));
 
 
+    if(userId){
+
+        socket.join(userId);
+    }
+
+    socket.on("typing", (data)=>{
+
+        console.log(`User ${data.userId} is typing in chat ${data.chatId}`);
+
+        socket.to(data.chatId).emit("userTyping", {
+
+            chatId: data.chatId,
+            userId: data.userId
+
+        })
+    })
+
+
+    socket.on("stopTyping", (data)=>{
+
+        console.log(`User ${data.userId} stopped typing in chat  ${data.chatId}`);
+
+        socket.to(data.chatId).emit("userStoppedTyping", {
+            chatId: data.chatId,
+            userId: data.userId
+        })
+    })
+
+
+
+    
+
+    socket.on("joinChat", (chatId)=>{
+        socket.join(chatId)
+
+        console.log(`User ${userId} joined chat room ${chatId}`);
+    })
+
+
+    socket.on("leaveChat", (chatId)=>{
+
+        socket.leave(chatId)
+
+        console.log(`User ${userId} left chhat room ${chatId}`);
+    })
+    
+    
     socket.on("disconnect", ()=>{
 
         console.log("User Disconnected", socket.id);
 
 
-        
+
         if(userId){
             delete userSocketMap[userId]
 
