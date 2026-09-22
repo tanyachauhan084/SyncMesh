@@ -8,6 +8,9 @@ import { useEffect, useState } from "react"
 import toast from "react-hot-toast";
 import Cookies from "js-cookie"
 import ChatMessages from "@/components/ChatMessages";
+import { SocketData } from "@/context/SocketContent";
+import ChatHeader from "@/components/ChatHeader";
+import MessageInput from "@/components/MessageInput";
 
   export interface Message {
   _id: string;
@@ -37,6 +40,9 @@ const ChatApp = () => {
   } = useAppData();
 
 
+  const {onlineUsers}= SocketData();
+
+  console.log(onlineUsers);
 
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [message, setMessage] = useState("");
@@ -201,13 +207,16 @@ const ChatApp = () => {
   setSelectedUser={setSelectedUser}
   handleLogout={logoutUser}
   createChat={createChat}
+  onlineUsers={onlineUsers}
 />
 
      <div className="flex-1 flex flex-col justify-between p-4 backdrop-blur-xl bg-white/5 border border-white/10">
         <ChatHeader 
         user={user}
         setSidebarOpen={setSiderbarOpen}
-        isTyping={isTyping}   
+        isTyping={isTyping}  
+         onlineUsers={onlineUsers}
+        
         />
 
          <ChatMessages
