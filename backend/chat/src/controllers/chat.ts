@@ -242,6 +242,32 @@ export const sendMessage= TryCatch(async(req:AuthenticatedRequest, res)=>{
 {new: true}
 );
 
+
+io.to(chatId).emit("newMessage", savedMessage)
+
+if(receiverSocketId){
+
+    io.to(receiverSocketId).emit("neeMessage", savedMessage);
+}
+
+const senderSocketId= getRecieverSocketId(senderId.toString());
+
+if(senderSocketId){
+
+    io.to(senderSocketId).emit("newMessage", savedMessage)
+}
+
+if(isReceiverInChatRoom && senderSocketId){
+
+    io.to(senderSocketId).emit("messagesSeen", {
+
+        chatId: chatId,
+        seenBy: otherUserId,
+        messageIds: [savedMessage._id]
+    })
+
+}
+
 res.status(201).json({
 
     message: savedMessage,
