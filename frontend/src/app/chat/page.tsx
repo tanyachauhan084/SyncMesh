@@ -239,6 +239,18 @@ const ChatApp = () => {
       setMessage("");
 
       const displayText = imageFile ? "📷 image" : message;
+    
+    
+      moveChatToTop(
+        selectedUser!,
+        {
+          text: displayText,
+          sender: data.sender,
+        },
+        false
+      );
+
+
     } catch (error: any) {
       toast.error(error.response.data.message);
     }
@@ -364,6 +376,7 @@ const ChatApp = () => {
     return ()=>{
 
       socket?.off("newMessage")
+      socket?.off("messagesSeen")
       socket?.off("userTyping")
       socket?.off("userStoppedTyping")
     }
