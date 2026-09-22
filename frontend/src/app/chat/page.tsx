@@ -41,7 +41,7 @@ const ChatApp = () => {
 
 
   const {onlineUsers, socket}= SocketData();
-  
+
 
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [message, setMessage] = useState("");
@@ -191,17 +191,97 @@ const ChatApp = () => {
     if(!selectedUser) return;
 
   //socket setup
+
+  if(!selectedUser || !socket) return;
+
+  if(value.trim()){
+
+    socket.emit("typing", {
+
+      chatId: selectedUser,
+      userId: loggedInUser?._id
+    });
+  }
+
+  if(typingTimeOut){
+    clearTimeout(typingTimeOut);
+  }
+
+  const timeout= setTimeout(() => {
+
+    socket.emit("stopTyping", {
+
+      chatId: selectedUser,
+      userId: loggedInUser?._id
+    })
+    
+  }, 2000);
+
+  setTypingTimeOut(timeout);
   };
 
+  useEffect(()=>{
 
+    socket?.on("userTyping", (data)=>{
+
+      console.log("received user typing", data);
+
+      if(data.chatId===selectedUser && data.userId!== loggedInUser?._id){
+
+        setIsTyping(true);
+      }
+    })
+
+
+    
+    socket?.on("userStoppedTyping", (data)=>{
+
+      console.log("received user stopped typing", data);
+
+      if(data.chatId===selectedUser && data.userId!== loggedInUser?._id){
+
+        setIsTyping(false)
+      }
+
+    
+
+    });
+
+    return ()=>{
+
+      socket?.off("userTyping")
+      socket?.off("userStoppedTyping")
+    }
+  })
 
   useEffect(()=>{
 
     if(selectedUser){
 
       fetchChat();
+      setIsTyping(false);
+
+      socket?.emit("joinChat", selectedUser);
+
+      return ()=>{
+
+        socket?.emit("leaveChat", selectedUser);
+
+        setMessages(null);
+      }
     }
-  }, [selectedUser]);
+  }, [selectedUser, socket]);
+
+
+  useEffect(()=>{
+
+    return ()=>{
+
+      if(typingTimeOut){
+       clearTimeout(typingTimeOut);
+      }
+    }
+  }, [typingTimeOut]);
 
 
   if(loading) return <Loading/>;
