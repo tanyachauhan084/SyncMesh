@@ -207,8 +207,8 @@ export const sendMessage= TryCatch(async(req:AuthenticatedRequest, res)=>{
 
         chatId: chatId,
         sender: senderId,
-        seen: false,
-        seenAt: undefined,
+        seen: isReceiverInChatRoom,
+        seenAt: isReceiverInChatRoom? new Date(): undefined,
     };
 
     if(imageFile){
