@@ -40,9 +40,8 @@ const ChatApp = () => {
   } = useAppData();
 
 
-  const {onlineUsers}= SocketData();
-
-  console.log(onlineUsers);
+  const {onlineUsers, socket}= SocketData();
+  
 
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [message, setMessage] = useState("");
@@ -123,7 +122,21 @@ const ChatApp = () => {
 
     if (!selectedUser) return;
 
-    
+    //socket work
+
+    if(typingTimeOut){
+
+      clearTimeout(typingTimeOut)
+
+      setTypingTimeOut(null);
+
+    }
+    socket?.emit("stopTyping", {
+      chatId: selectedUser,
+      userId: loggedInUser?._id
+    })
+
+
     const token = Cookies.get("token");
 
     try {
