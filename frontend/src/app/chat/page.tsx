@@ -283,6 +283,59 @@ const ChatApp = () => {
 
   useEffect(()=>{
 
+     socket?.on("newMessage", (message) => {
+      console.log("Recieved new message:", message);
+
+      if (selectedUser === message.chatId) {
+        setMessages((prev) => {
+          const currentMessages = prev || [];
+          const messageExists = currentMessages.some(
+            (msg) => msg._id === message._id
+          );
+
+          if (!messageExists) {
+            return [...currentMessages, message];
+          }
+          return currentMessages;
+        });
+
+        moveChatToTop(message.chatId, message, false);
+      } else {
+        moveChatToTop(message.chatId, message, true);
+      }
+    });
+
+    socket?.on("messagesSeen", (data) => {
+      console.log("Message seen by:", data);
+
+      if (selectedUser === data.chatId) {
+        setMessages((prev) => {
+          if (!prev) return null;
+          return prev.map((msg) => {
+            if (
+              msg.sender === loggedInUser?._id &&
+              data.messageIds &&
+              data.messageIds.includes(msg._id)
+            ) {
+              return {
+                ...msg,
+                seen: true,
+                seenAt: new Date().toString(),
+              };
+            } else if (msg.sender === loggedInUser?._id && !data.messageIds) {
+              return {
+                ...msg,
+                seen: true,
+                seenAt: new Date().toString(),
+              };
+            }
+            return msg;
+          });
+        });
+      }
+    });
+
+ 
     socket?.on("userTyping", (data)=>{
 
       console.log("received user typing", data);
@@ -310,10 +363,11 @@ const ChatApp = () => {
 
     return ()=>{
 
+      socket?.off("newMessage")
       socket?.off("userTyping")
       socket?.off("userStoppedTyping")
     }
-  })
+  }, [socket, selectedUser, setChats, loggedInUser?._id])
 
   useEffect(()=>{
 
@@ -321,6 +375,13 @@ const ChatApp = () => {
 
       fetchChat();
       setIsTyping(false);
+
+
+      
+
+    resetUnseenCount(selectedUser);
+
+
 
       socket?.emit("joinChat", selectedUser);
 
