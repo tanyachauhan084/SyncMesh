@@ -3,7 +3,7 @@ import TryCatch from "../config/TryCatch.js";
 import type { AuthenticatedRequest } from "../middlewares/isAuth.js";
 import { Chat } from "../models/Chat.js";
 import { Messages } from "../models/Messages.js";
-
+import { getRecieverSocketId, io } from "../config/socket.js";
 
 export const  createNewChat= TryCatch(async(req: AuthenticatedRequest, res)=>{
 
@@ -188,6 +188,20 @@ export const sendMessage= TryCatch(async(req:AuthenticatedRequest, res)=>{
         return;
     }
     //socket setup
+
+    const receiverSocketId= getRecieverSocketId(otherUserId.toString());
+
+    let isReceiverInChatRoom= false;
+
+    if(receiverSocketId){
+
+        const receiverSocket= io.sockets.sockets.get(receiverSocketId)
+        
+        if(receiverSocket && receiverSocket.rooms.has(chatId)){
+
+            isReceiverInChatRoom= true;
+        }
+    }
 
     let messageData: any=  {
 
