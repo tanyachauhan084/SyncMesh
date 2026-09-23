@@ -433,7 +433,7 @@ const ChatApp = () => {
   chats={chats}
   selectedUser={selectedUser}
   setSelectedUser={setSelectedUser}
-  handleLogout={logoutUser}
+  handleLogout={handleLogout}
   createChat={createChat}
   onlineUsers={onlineUsers}
 />
