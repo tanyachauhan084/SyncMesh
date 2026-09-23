@@ -20,6 +20,12 @@ cors:{
 
 const userSocketMap: Record<string, string>= {};
 
+export const getRecieverSocketId=(recieverId: string): string | undefined=>{
+
+    return userSocketMap[recieverId];
+}
+
+
 io.on("connection", (socket: Socket)=>{
 
     console.log("User connected", socket.id);
@@ -82,7 +88,7 @@ io.on("connection", (socket: Socket)=>{
         console.log(`User ${userId} left chhat room ${chatId}`);
     })
     
-    
+
     socket.on("disconnect", ()=>{
 
         console.log("User Disconnected", socket.id);
@@ -107,5 +113,5 @@ io.on("connection", (socket: Socket)=>{
 });
 
 
-export {app, server};
+export {app, server, io};
 
