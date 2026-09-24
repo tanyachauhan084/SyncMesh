@@ -261,7 +261,7 @@ io.to(chatId).emit("newMessage", savedMessage)
 
 if(receiverSocketId){
 
-    io.to(receiverSocketId).emit("neeMessage", savedMessage);
+    io.to(receiverSocketId).emit("newMessage", savedMessage);
 }
 
 const senderSocketId= getRecieverSocketId(senderId.toString());
