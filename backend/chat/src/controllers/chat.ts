@@ -357,7 +357,7 @@ export const  getMessagesByChat= TryCatch(async( req: AuthenticatedRequest, res)
         seenAt: new Date()
     })
 
-    const messages= await Messages.find({chatId}).sort({createdAt: -1});
+    const messages= await Messages.find({chatId}).sort({createdAt: 1});
 
      const otherUserId= chat.users.find((id)=> id!== userId);
 
