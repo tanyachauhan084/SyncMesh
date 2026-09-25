@@ -52,8 +52,8 @@ export const startSendOptConsumer= async()=>{
 
                         auth:{
 
-                            user: process.env.USER,
-                            pass: process.env.PASSWORD
+                            user: process.env.MAIL_USER,
+                            pass: process.env.MAIL_PASSWORD
                         }
 
                     })
